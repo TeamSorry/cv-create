@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="az">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CV Create - Premium CV Builder</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <!-- Üst Menyu -->
+    <nav class="navbar">
+        <div class="logo">✨ CV<span>Create</span></div>
+        <div class="nav-links">
+            <button onclick="switchPage('editor')" class="nav-btn active">CV Redaktor</button>
+            <button onclick="switchPage('admin')" class="nav-btn">Admin Panel</button>
+            <button onclick="switchPage('login')" class="nav-btn" id="loginNavBtn">Daxil Ol</button>
+            <button onclick="switchPage('register')" class="nav-btn" id="registerNavBtn">Qeydiyyat</button>
+            <button onclick="logout()" class="nav-btn logout-btn" id="logoutBtn" style="display:none;">Çıxış</button>
+        </div>
+    </nav>
+
+    <div class="container">
+        
+        <!-- ================= CV REDAKTOR SƏHİFƏSİ ================= -->
+        <section id="page-editor" class="page active">
+            <div class="editor-layout">
+                
+                <!-- Sol Panel: Giriş Parametrləri -->
+                <div class="control-panel">
+                    <div class="section-title">🎨 Model və Rəng Seçimi</div>
+                    <div class="template-grid">
+                        <button onclick="changeTemplate('creative')" class="tpl-card active" id="btn-creative">
+                            <div class="tpl-thumb creative-thumb"></div>
+                            <span>Yaradıcı Krem (Zəngin)</span>
+                        </button>
+                        <button onclick="changeTemplate('executive')" class="tpl-card" id="btn-executive">
+                            <div class="tpl-thumb executive-thumb"></div>
+                            <span>Corporate Blue (Detallı)</span>
+                        </button>
+                        <button onclick="changeTemplate('minimal')" class="tpl-card" id="btn-minimal">
+                            <div class="tpl-thumb minimal-thumb"></div>
+                            <span>Zərif Minimalist</span>
+                        </button>
+                    </div>
+
+                    <div class="section-title">📸 Şəxsi Məlumatlar</div>
+                    <div class="upload-wrapper">
+                        <label for="cv-image-input" class="custom-upload-btn">Profil Şəklini Yüklə</label>
+                        <input type="file" id="cv-image-input" accept="image/*" onchange="previewImage(event)">
+                    </div>
+
+                    <div class="input-grid">
+                        <div class="form-group">
+                            <label>Tam Adınız və Soyadınız</label>
+                            <input type="text" id="in-name" value="Teymur Məmmədli" oninput="updateCV()">
+                        </div>
+                        <div class="form-group">
+                            <label>Peşə / Vəzifə</label>
+                            <input type="text" id="in-title" value="Baş Proqram Təminatı Mühəndisi" oninput="updateCV()">
+                        </div>
+                        <div class="form-group">
+                            <label>E-mail Ünvanı</label>
+                            <input type="email" id="in-email" value="teymur@premiumcv.com" oninput="updateCV()">
+                        </div>
+                        <div class="form-group">
+                            <label>Telefon Nömrəsi</label>
+                            <input type="text" id="in-phone" value="+994 (50) 123-4567" oninput="updateCV()">
+                        </div>
+                        <div class="form-group">
+                            <label>Yaşayış Yeri (Şəhər, Ölkə)</label>
+                            <input type="text" id="in-location" value="Bakı, Azərbaycan" oninput="updateCV()">
+                        </div>
+                        <div class="form-group">
+                            <label>LinkedIn / Sayt</label>
+                            <input type="text" id="in-web" value="linkedin.com/in/teymur" oninput="updateCV()">
+                        </div>
+                    </div>
+
+                    <div class="section-title">✍️ Geniş Profil & Haqqımda</div>
+                    <div class="form-group">
+                        <textarea id="in-about" rows="4" oninput="updateCV()">10 ildən artıq təcrübəyə malik, irimiqyaslı layihələrin idarə edilməsi və bulud infrastrukturlarının qurulmasında ixtisaslaşmış professional mütəxəssis. Komanda ruhuna inanan və innovativ həllər istehsal edən dinamik rəhbər.</textarea>
+                    </div>
+
+                    <div class="section-title">🌐 Dil Bacarıqları (Səviyyələri ilə)</div>
+                    <div class="form-group">
+                        <input type="text" id="in-languages" value="Azərbaycan dili (Ana dili), İngilis dili (C1), Türk dili (C2), Rus dili (B2), Alman dili (B1), Fransız dili (A2), İspan dili (A1), İtalyan dili (A1), Ərəb dili (A1), Çin dili (A1)" oninput="updateCV()" placeholder="Dilləri vergüllə ayıraraq yazın...">
+                    </div>
+
+                    <div class="section-title">🛠 Texniki Bacarıqlar (Vergüllə ayırın)</div>
+                    <div class="form-group">
+                        <input type="text" id="in-skills" value="JavaScript, TypeScript, React, Node.js, Docker, AWS, SQL" oninput="updateCV()">
+                    </div>
+
+                    <div class="section-title">💼 İş Təcrübəsi</div>
+                    <div class="form-group">
+                        <label>Şirkət, Vəzifə və Tarix</label>
+                        <input type="text" id="in-exp-title" value="Caspian Tech - Senior Team Lead (2022 - Hazırda)" oninput="updateCV()">
+                        <textarea id="in-exp-desc" rows="3" style="margin-top:5px;" oninput="updateCV()">Milli proqram təminatı məhsulunun arxitekturasını sıfırdan hazırlamışam. 15 nəfərlik proqramçı komandasına rəhbərlik edirəm. Performansı 40% artırmışıq.</textarea>
+                    </div>
+
+                    <div class="section-title">🎓 Təhsil</div>
+                    <div class="form-group">
+                        <label>Universitet, İxtisas və Tarix</label>
+                        <input type="text" id="in-edu-title" value="Azərbaycan Dövlət Neft və Sənaye Universiteti - Kompüter Mühəndisliyi (2018 - 2022)" oninput="updateCV()">
+                        <input type="text" id="in-edu-desc" value="Bakalavr dərəcəsi, Fərqlənmə diplomu, GPA: 95" style="margin-top:5px;" oninput="updateCV()">
+                    </div>
+
+                    <button class="action-btn-print" onclick="triggerCVPrint()">A4 FORMATINDA YÜKLƏ / ÇAP ET</button>
+                </div>
+
+                <!-- Sağ Panel: Canlı Çap Olunacaq Ətraflı A4 CV -->
+                <div class="preview-area">
+                    <div id="cv-sheet" class="cv-theme-creative">
+                        <!-- CV Yuxarı Hissə / Header -->
+                        <div class="cv-header-block">
+                            <img id="cv-img-view" src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&q=80&w=200" alt="Profil">
+                            <div class="cv-name-meta">
+                                <h1 id="cv-txt-name">Teymur Məmmədli</h1>
+                                <h2 id="cv-txt-title">Baş Proqram Təminatı Mühəndisi</h2>
+                            </div>
+                        </div>
+
+                        <!-- CV Əsas Gövdə -->
+                        <div class="cv-main-layout">
+                            <!-- Sol Zolaq / Əlaqə, Dillər və Bacarıqlar -->
+                            <div class="cv-left-col">
+                                <div class="cv-sub-section">
+                                    <h4>ƏLAQƏ</h4>
+                                    <p>📍 <span id="cv-txt-location">Bakı, Azərbaycan</span></p>
+                                    <p>📞 <span id="cv-txt-phone">+994 (50) 123-4567</span></p>
+                                    <p>✉️ <span id="cv-txt-email">teymur@premiumcv.com</span></p>
+                                    <p>🌐 <span id="cv-txt-web">linkedin.com/in/teymur</span></p>
+                                </div>
+
+                                <div class="cv-sub-section">
+                                    <h4>DİLLƏR</h4>
+                                    <div id="cv-languages-list" class="languages-vertical-list">
+                                        <!-- Dillər JS ilə buraya əklənəcək -->
+                                    </div>
+                                </div>
+
+                                <div class="cv-sub-section">
+                                    <h4>BACARIQLAR</h4>
+                                    <div id="cv-skills-list" class="skills-tag-group">
+                                        <!-- Dinamik gələcək -->
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Sağ Zolaq / Təcrübə və Təhsil -->
+                            <div class="cv-right-col">
+                                <div class="cv-sub-section">
+                                    <h4>PROFİL</h4>
+                                    <p id="cv-txt-about" class="cv-paragraph">10 ildən artıq təcrübəyə malik, irimiqyaslı layihələrin idarə edilməsi və bulud infrastrukturlarının qurulmasında ixtisaslaşmış professional mütəxəssis. Komanda ruhuna inanan və innovativ həllər istehsal edən dinamik rəhbər.</p>
+                                </div>
+
+                                <div class="cv-sub-section">
+                                    <h4>PEŞƏKAR TƏCRÜBƏ</h4>
+                                    <div class="cv-timeline-item">
+                                        <h5 id="cv-txt-exp-title">Caspian Tech - Senior Team Lead (2022 - Hazırda)</h5>
+                                        <p id="cv-txt-exp-desc">Milli proqram təminatı məhsulunun arxitekturasını sıfırdan hazırlamışam. 15 nəfərlik proqramçı komandasına rəhbərlik edirəm. Performansı 40% artırmışıq.</p>
+                                    </div>
+                                </div>
+
+                                <div class="cv-sub-section">
+                                    <h4>TƏHSİL</h4>
+                                    <div class="cv-timeline-item">
+                                        <h5 id="cv-txt-edu-title">Azərbaycan Dövlət Neft və Sənaye Universiteti - Kompüter Mühəndisliyi (2018 - 2022)</h5>
+                                        <p id="cv-txt-edu-desc">Bakalavr dərəcəsi, Fərqlənmə diplomu, GPA: 95</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- ================= DAXİL OL SƏHİFƏSİ ================= -->
+        <section id="page-login" class="page">
+            <div class="card-box">
+                <h2>CV Create Giriş Panel</h2>
+                <p class="subtitle">Sistem idarəçisi olaraq daxil olun</p>
+                <form onsubmit="executeLogin(event)">
+                    <div class="form-group">
+                        <label>E-mail Ünvanı</label>
+                        <input type="email" id="log-email" placeholder="E-mail yazın..." required>
+                    </div>
+                    <div class="form-group">
+                        <label>Şifrə</label>
+                        <input type="password" id="log-pass" placeholder="Şifrəni yazın..." required>
+                    </div>
+                    <button type="submit" class="submit-btn-brand">Təhlükəsiz Giriş</button>
+                </form>
+                <p id="log-error-field" class="error-alert"></p>
+            </div>
+        </section>
+
+        <!-- ================= QEYDİYYAT SƏHİFƏSİ ================= -->
+        <section id="page-register" class="page">
+            <div class="card-box">
+                <h2>Yeni İstifadəçi Qeydiyyatı</h2>
+                <p class="subtitle">Sistemdə qeydiyyatdan keçin (Məlumatlar birbaşa Admin Panelə gedir)</p>
+                <form onsubmit="executeRegister(event)">
+                    <div class="form-group">
+                        <label>Ad və Soyad</label>
+                        <input type="text" id="reg-name" placeholder="Məs. Elşən Qasımov" required>
+                    </div>
+                    <div class="form-group">
+                        <label>E-mail</label>
+                        <input type="email" id="reg-email" placeholder="məsələn@mail.com" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Ölkə / Şəhər</label>
+                        <input type="text" id="reg-country" placeholder="Məs. Azərbaycan, Bakı" required>
+                    </div>
+                    <button type="submit" class="submit-btn-brand">Hesab Yarat</button>
+                </form>
+                <p id="reg-success-field" class="success-alert"></p>
+            </div>
+        </section>
+
+        <!-- ================= ADMİN PANEL SƏHİFƏSİ ================= -->
+        <section id="page-admin" class="page">
+            <div class="admin-wrapper">
+                <div class="admin-header">
+                    <h2>📊 CV Create Real-Time İdarəetmə Paneli</h2>
+                    <p>Xoş gəldiniz, <strong>Teymur Məmmədli</strong>! Sistem tam qorunur.</p>
+                </div>
+
+                <!-- ANALYTICS DASHBOARD -->
+                <div class="dashboard-section">
+                    <h3>📈 4. Analytics Dashboard (Real Göstəricilər)</h3>
+                    <div class="analytics-grid">
+                        <div class="analytic-card">
+                            <h4>Gündəlik CV Yaradılması</h4>
+                            <div class="chart-mockup">
+                                <div class="bar" style="height: 40%;"><span>40</span></div>
+                                <div class="bar" style="height: 65%;"><span>65</span></div>
+                                <div class="bar" style="height: 85%;"><span>85</span></div>
+                                <div class="bar" style="height: 100%; background: #ff7a00;"><span>Bugün</span></div>
+                            </div>
+                            <p class="analytics-note" id="live-cv-stat">Real yaradılan CV sayı: 3</p>
+                        </div>
+
+                        <div class="analytic-card">
+                            <h4>🌍 Ölkələrə Görə İstifadə</h4>
+                            <ul class="analytics-list" id="geo-list">
+                                <!-- Real dinamik məlumatlar bura yerləşəcək -->
+                            </ul>
+                        </div>
+
+                        <div class="analytic-card">
+                            <h4>⏱ Ən Aktiv Saatlar</h4>
+                            <div class="time-activity">
+                                <p>🌅 Səhər (09:00 - 12:00): <strong style="color:#10b981">Yüksək (45%)</strong></p>
+                                <p>☀️ Günorta (12:00 - 18:00): <strong style="color:#ff7a00">Pik (50%)</strong></p>
+                                <p>🌙 Gecə (18:00 - 00:00): <strong style="color:#64748b">Aşağı (5%)</strong></p>
+                            </div>
+                        </div>
+
+                        <div class="analytic-card">
+                            <h4>🔥 Ən Çox İstifadə Olunan Şablon</h4>
+                            <div class="popular-template">
+                                <p id="fav-template-name">🥇 Yaradıcı Krem Şablonu</p>
+                                <div class="progress-bar-container">
+                                    <div class="progress-fill" id="fav-template-bar" style="width: 70%"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- CV TEMPLATES MANAGER -->
+                <div class="dashboard-section" style="margin-top: 40px;">
+                    <h3>📄 2. CV Templates Manager</h3>
+                    <div class="template-manager-box">
+                        <div class="tmpl-form-add">
+                            <h4>🎨 Yeni Template Əlavə Et</h4>
+                            <div class="input-inline">
+                                <input type="text" id="new-tpl-name" placeholder="Template Adı...">
+                                <input type="text" id="new-tpl-style" placeholder="Stil sinfi (məs. cv-theme-purple)...">
+                                <button onclick="addNewTemplateFromAdmin()" class="btn-sm-add">Əlavə Et</button>
+                            </div>
+                        </div>
+
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>Template Adı</th>
+                                    <th>Stil Kodu</th>
+                                    <th>Status</th>
+                                    <th>Önizləmə</th>
+                                    <th>Featured (Seçilmiş)</th>
+                                    <th>Əməliyyat</th>
+                                </tr>
+                            </thead>
+                            <tbody id="admin-templates-list">
+                                <!-- JS tərəfindən idarə olunacaq -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- REAL QEYDİYYATDAN KEÇƏNLƏRİN SİYAHISI -->
+                <div class="dashboard-section" style="margin-top: 40px;">
+                    <h3>👥 Sistemdəki Real İstifadəçilər</h3>
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>№</th>
+                                <th>Ad Soyad</th>
+                                <th>E-mail Ünvanı</th>
+                                <th>Ölkə / Şəhər</th>
+                            </tr>
+                        </thead>
+                        <tbody id="real-users-table">
+                            <!-- Real qeydiyyatlar bura düşəcək -->
+                        </tbody>
+                    </table>
+                </div>
+
+            </div>
+        </section>
+
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
